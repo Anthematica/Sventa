@@ -121,4 +121,62 @@ class Database2 {
         );
     }
 
+    public function indexBranches (): ? array {
+
+        $query = $this->pdo->prepare('SELECT *FROM branches'); //Preparo la tabla
+        
+        $query->execute(); //Ejecuto la consulta
+
+        $branches= $query->fetchAll(PDO::FETCH_ASSOC); //FETCH_ASSOC convierte el contenido de la BD a un array asociativo 
+
+
+        return $branches;
+    }
+
+    public function storeBranches (array $data): void {
+        $query = $this->pdo->prepare('INSERT INTO branches (state, city, address, phone) VALUES(:state, :city, :address, :phone)');
+
+        //Asiganamos los valores
+        $query->execute (
+            [
+                //El primer valor corresponde al placeholder 
+                'state' => $data['state'],
+                'city' => $data['city'],
+                'address' => $data['address'],
+                'phone' => $data['phone'],
+            ] 
+        );
+    }
+
+    public function findBranch (string $id) {
+        $query = $this->pdo->prepare ('SELECT *FROM branches WHERE id = :id');
+
+        $query->execute(
+            ['id' => $id]
+        );
+
+        $branch = $query->fetch(PDO::FETCH_ASSOC);
+
+        return $branch;
+    }
+
+    
+    public function editBranch (int $id , array $data): void {
+        $query = $this->pdo->prepare
+        (
+        'UPDATE branches SET state = :state, city = :city, address = :address, phone = :phone WHERE id = :id'
+        );
+
+
+        $query->execute(
+            [
+                'id' => $id,
+                'state' => $data['state'],
+                'city' => $data['city'],
+                'address' => $data['address'],
+                'phone' => $data['phone'],
+            ]
+        );
+    }
+
 }

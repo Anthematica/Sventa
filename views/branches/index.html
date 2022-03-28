@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branches</title>
+</head>
+<body>
+    <h1>Branches</h1>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Branch id</th>
+                    <th>State</th>
+                    <th>City</th>
+                    <th>Addres</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for branch in branches %}
+                    <tr>
+                        <td>{{branch.id}}</td>
+                        <td>{{branch.state}}</td>
+                        <td>{{branch.city}}</td>
+                        <td>{{branch.address}}</td>
+                        <td>
+                            <a href="/branches/{{branch.id}}/edit">Edit</a>
+                        </td>
+                       
+                    </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

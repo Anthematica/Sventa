@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 
-class ProductsController
+class BranchesController
 {
     private $container;
 
@@ -23,10 +23,10 @@ class ProductsController
 
         $db = $this->container->get('db2');
 
-        $listProducts = $db->indexProducts();
-        
-        return $view->render($response, '/products/index.html',
-            ['products' => $listProducts],
+        $listBranches = $db->indexBranches();
+
+        return $view->render($response, '/branches/index.html',
+            ['branches' => $listBranches],
         );
     }
 
@@ -35,11 +35,8 @@ class ProductsController
         $view = Twig::fromRequest($request);
 
         $db =  $this->container->get('db2');
-        $listCategories = $db->indexCategories();
 
-        return $view->render($response, '/products/create.html',
-            ['categories' => $listCategories]
-        );
+        return $view->render($response, '/branches/create.html');
     }
 
     public function store (Request $request, Response $response, $args): Response {
@@ -47,20 +44,25 @@ class ProductsController
     
         $params = (array) $request->getParsedBody();
 
-        $product = $params['product'] ?? null;
-        $categoryId = $params['category'] ?? null;
+        $state = $params['state'] ?? null;
+        $city = $params['city'] ?? null;
+        $address = $params['address'] ?? null;
+        $phone = $params['phone'] ?? null;
+    
 
         // var_dump($params);
         // die;
     
         $db = $this->container->get('db2');
 
-        $db->storeProducts([
-            'product' => $product,
-            'category' => $categoryId,
+        $db->storeBranches([
+            'state' => $state,
+            'city' => $city,
+            'address' => $address,
+            'phone' => $phone,
         ]);
     
-        return $response->withHeader('Location', '/products')->withStatus(302);
+        return $response->withHeader('Location', '/branches')->withStatus(302);
     }
 
     public function edit(Request $request, Response $response, $args): Response
@@ -71,16 +73,13 @@ class ProductsController
     
         $db = $this->container->get('db2');
 
-        $product = $db->findProduct($id);
-        $category = $db->indexCategories();
-    
-        // $params = (array) $request->getQueryParams();
+        $branch = $db->findBranch($id);
 
-        return $view->render($response, '/products/edit.html', 
+        
+        return $view->render($response, '/branches/edit.html', 
             [
-                'id'=> $id,
-                'product' => $product,
-                'categories' => $category
+                'id' => $id,
+                'branch' => $branch,
             ]
         );
     }
@@ -91,19 +90,23 @@ class ProductsController
         $params = (array) $request->getParsedBody();
 
 
-        $product = $params['product'] ?? null;
-        $category_id = $params['category'] ?? null;
+        $state = $params['state'] ?? null;
+        $city = $params['city'] ?? null;
+        $address = $params['address'] ?? null;
+        $phone = $params['phone'] ?? null;
 
         $db = $this->container->get('db2');
 
-        $db->editProduct(
+        $db->editBranch(
             $id, 
             [
-                'product' => $product,
-                'category' => $category_id,
+                'state' =>  $state,
+                'city' => $city,
+                'address' => $address,
+                'phone' => $phone,
             ]
         );
 
-        return $response->withHeader('Location', '/products')->withStatus(302);
+        return $response->withHeader('Location', '/branches')->withStatus(302);
     }
 }
