@@ -1,0 +1,11 @@
+{
+    "require": {
+        "slim/slim": "^4.10",
+        "slim/psr7": "^1.5",
+        "slim/twig-view": "3.0",
+        "guzzlehttp/psr7": "2",
+        "ramsey/uuid": "^4.2",
+        "league/container": "^4.2",
+        "symfony/var-dumper": "^5.4"
+    }
+}

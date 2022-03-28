@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store product</title>
+</head>
+<body>
+    <div>
+        <h2>Store a product</h2>
+        <form action="/products/create" method="post">
+            <label>
+                Product name
+                <input type="text" name="product" required>
+            </label>
+            <br>
+            <br>
+            <label>
+                Select category
+                <select name="category" required>
+                    {% for category in categories %}
+                    <option value="{{category.id}}">{{category.category}}</option>
+                    {%endfor%}
+                </select>
+            </label>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</body>
+</html>

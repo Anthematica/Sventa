@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Categories</h1>
+    <h2>Add Category</h2>
+    <form action="/categories" method="post">
+        <label>
+            ADD Category <br>
+            <input type="text" name="category" required>
+            <!-- <div>
+                {{errors.category}}
+            </div> -->
+        </label>
+        <button type="submit">Save</button>
+    </form>
+    <br>
+    <br>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Category id</th>
+                    <th>Category</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td>{{category.id}}</td>
+                        <td>{{category.category}}</td>
+                        <td>
+                            <a href="/categories/{{category.id}}/edit">Edit</a>
+                            <form action="/">
+                                <button>Delete</button>
+                            </form>
+                        </td>
+                       
+                    </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

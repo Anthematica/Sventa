@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit a product</title>
+</head>
+<body>
+    <h1>Edit a product</h1>
+
+    <form action="/products/{{id}}/edit" method="post">
+        <input type="hidden" name="_METHOD" value="PATCH">
+        <label>
+            Product name
+            <input type="text" name="product" value="{{product.product_name}}" required>
+        </label>
+        <br>
+        <br>
+        <label>
+            Select category
+            <select name="category">
+                <option value="{{product.category_id}}">{{product.category}}</option>
+                {%for category  in categories %}
+
+                <!-- 
+                    si produc.category_id === category.category
+                    removeChild(category.category);
+                -->
+                <option value="{{category.id}}">{{ category.category }}</option>
+                {%endfor%}
+            </select>
+        </label>
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>
