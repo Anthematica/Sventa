@@ -226,6 +226,7 @@ class Database2 {
 
         return $seller;
     }
+    
     public function editSeller (int $id , array $data): void {
         $query = $this->pdo->prepare
         (
@@ -281,5 +282,46 @@ class Database2 {
         );
     }
 
+    public function findSale(string $id) {
+        $query = $this->pdo->prepare (
+            'SELECT SA.id AS ID_COMPRA, P.product_name, SA.amount, SA.price, S.seller_id AS Seller_DNI,
+            SA.branch_id, P.id AS product_id, S.id AS seller_id, SA.sale_date
+            FROM sales AS SA
+            JOIN branches AS BR ON SA.branch_id = BR.id
+            JOIN sellers AS S ON SA.seller_id = S.id
+            JOIN products AS P ON SA.product_id = P.id WHERE SA.id = :id'
+        );
+
+        $query->execute(
+            ['id' => $id]
+        );
+
+        $sale = $query->fetch(PDO::FETCH_ASSOC);
+
+        return $sale;
+    }
+
+    public function editSale (int $id , array $data): void {
+        $query = $this->pdo->prepare
+        (
+        'UPDATE sales SET seller_id = :seller_id, product_id = :product_id, branch_id = :branch_id, amount= :amount,
+            price = :price, sale_date = :sale_date WHERE id = :id'
+        );
+
+        var_dump($data);
+
+        $query->execute(
+            [
+                'id' => $id,
+                'seller_id' => (int) $data['seller_id'],
+                'product_id' => (int) $data['product_id'],
+                'branch_id' => (int) $data['branch_id'],
+                'amount' => (int) $data['amount'],
+                'price' => (int) $data['price'],
+                'sale_date' => $data['sale_date'],
+            ]
+        );        
+
+    }
 
 }

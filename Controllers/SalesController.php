@@ -85,13 +85,20 @@ class SalesController
     
         $db = $this->container->get('db2');
 
-        $seller = $db->findSeller($id);
+        $sale = $db->findSale($id);
+
+        $listProducts = $db->indexProducts2();
+        $listSellers = $db->indexSellers(); 
+        $listBranches = $db->indexBranches();
 
         
-        return $view->render($response, '/sellers/edit.html', 
+        return $view->render($response, '/sales/edit.html', 
             [
                 'id' => $id,
-                'seller' => $seller,
+                'sale' => $sale,
+                'listProducts' => $listProducts,
+                'listSellers' => $listSellers,
+                'listBranches' => $listBranches,
             ]
         );
     }
@@ -101,29 +108,27 @@ class SalesController
         $id = $args['id'];
         $params = (array) $request->getParsedBody();
 
-        $first_name = $params['first_name'] ?? null;
-        $last_name = $params['last_name'] ?? null;
-        $birthday = $params['birthday'] ?? null;
-        $cedula = $params['cedula'] ?? null;
-        $company_start_date = $params['company_start_date'] ?? null;
-        $DNI = $params['DNI'] ?? null;
-        $phone = $params['phone'] ?? null;
+        $seller_id = $params['sellers'] ?? null;
+        $product_id = $params['products'] ?? null;
+        $branch_id = $params['branches'] ?? null;
+        $amount = $params['amount'] ?? null;
+        $price = $params['price'] ?? null;
+        $sale_date = $params['sale_date'] ?? null;
 
         $db = $this->container->get('db2');
 
-        $db->editSeller(
+        $db->editSale(
             $id, 
             [
-                'first_name' =>  $first_name,
-                'last_name' => $last_name,
-                'birthday' => $birthday,
-                'cedula' => $cedula,
-                'company_start_date' => $company_start_date,
-                'DNI' => $DNI,
-                'phone' => $phone,
+                'seller_id' =>  $seller_id,
+                'product_id' => $product_id,
+                'branch_id' => $branch_id,
+                'amount' => $amount,
+                'price' => $price,
+                'sale_date' => $sale_date,
             ]
         );
 
-        return $response->withHeader('Location', '/sellers')->withStatus(302);
+        return $response->withHeader('Location', '/sales')->withStatus(302);
     }
 }
