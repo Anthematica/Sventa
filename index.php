@@ -6,6 +6,7 @@ require_once __DIR__.'/Controllers/HomeController.php';
 require_once __DIR__.'/Controllers/ProductsController.php';
 require_once __DIR__.'/Controllers/BranchesController.php';
 require_once __DIR__.'/Controllers/SellersController.php';
+require_once __DIR__.'/Controllers/SalesController.php';
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -18,6 +19,7 @@ use Controllers\HomeController;
 use Controllers\ProductsController;
 use Controllers\BranchesController;
 use Controllers\SellersController;
+use Controllers\SalesController;
 
 
 
@@ -72,6 +74,11 @@ $app->post('/sellers/create', [SellersController::class, 'store']);
 $app->get('/sellers/{id}/edit', [SellersController::class, 'edit']);
 $app->patch('/sellers/{id}/edit', [SellersController::class, 'update']);
 
-
+//Sales routes
+$app->get('/sales', [SalesController::class, 'index']);
+$app->get('/sales/create', [SalesController::class, 'create']);
+$app->post('/sales/create', [SalesController::class, 'store']);
+$app->get('/sales/{id}/edit', [SalesController::class, 'edit']);
+$app->patch('/sales/{id}/edit', [SalesController::class, 'update']);
 
 $app->run();

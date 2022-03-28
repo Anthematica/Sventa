@@ -82,6 +82,14 @@ class Database2 {
         );
     }
 
+    public function indexProducts2() : ? array {
+        $query = $this->pdo->prepare('SELECT *FROM products'); //Preparo la tabla
+        
+        $query->execute(); //Ejecuto la consulta
+
+        $products = $query->fetchAll(PDO::FETCH_ASSOC); //FETCH_ASSOC convierte el contenido de la BD a un array asociativo 
+        return $products;
+    }
     public function indexProducts (): ? array {
 
         $query = $this->pdo->prepare('SELECT P.id, P.product_name, C.category FROM products AS P
@@ -238,5 +246,40 @@ class Database2 {
             ]
         );
     }
+
+    public function indexSales (): ? array {
+
+        $query = $this->pdo->prepare(
+            'SELECT SA.id AS ID_COMPRA, P.product_name, SA.amount, SA.price, S.seller_id AS Seller_DNI,
+            SA.branch_id, P.id AS product_id, S.id AS seller_id, SA.sale_date
+            FROM sales AS SA
+            JOIN branches AS BR ON SA.branch_id = BR.id
+            JOIN sellers AS S ON SA.seller_id = S.id
+            JOIN products AS P ON SA.product_id = P.id'
+        ); //Preparo la tabla
+        
+        $query->execute(); //Ejecuto la consulta
+
+        $sales = $query->fetchAll(PDO::FETCH_ASSOC); //FETCH_ASSOC convierte el contenido de la BD a un array asociativo 
+        return $sales;
+    }
+
+    public function storeSales (array $data): void {
+        $query = $this->pdo->prepare('INSERT INTO sales (seller_id, product_id, branch_id, amount, price, sale_date) 
+        VALUES(:seller_id, :product_id, :branch_id, :amount, :price, :sale_date)');
+
+        $query->execute (
+            [
+                //El primer valor corresponde al placeholder 
+                'seller_id' => (int) $data['sellers'],
+                'product_id' => (int) $data['product_id'],
+                'branch_id' => (int) $data['branch_id'],
+                'amount' => (int) $data['amount'],
+                'price' => (int) $data['price'],
+                'sale_date' => $data['sale_date'],
+            ] 
+        );
+    }
+
 
 }

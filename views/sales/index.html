@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sellers</title>
+</head>
+<body>
+    <h1>Sales</h1>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Sales ID</th>
+                    <th>product name</th>
+                    <th>amount</th>
+                    <th>price</th>
+                    <th>Seller DNI</th>
+                    <th>Sale date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sale in sales %}
+                    <tr>
+                        <td>{{sale.ID_COMPRA}}</td>
+                        <td>{{sale.product_name}}</td>
+                        <td>{{sale.amount}}</td>
+                        <td>{{sale.price}}</td>
+                        <td>{{sale.Seller_DNI}}</td>
+                        <td>{{sale.sale_date}}</td>
+                        <td>
+                            <a href="/sales/{{sale.id}}/edit">Edit</a>
+                        </td> 
+                    </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Sale</title>
+</head>
+<body>
+    <h1>Edit a Sale</h1>
+    <form action="/sales/create" method="post">
+
+        <h2>Detalles del producto</h2>
+        <label>
+            Select a product
+            <select name="products" required>
+                {% for product in products %}
+                <option value="{{product.id}}">{{product.product_name}}</option>
+                {%endfor%}
+            </select>
+        </label>
+        <label>
+            Amount
+            <input type="number" name="amount">
+        </label>
+        <label>
+            Product price
+            <input type="number" name="price">
+        </label>
+        <h2>Detalles del vendedor</h2>
+        <label>
+            DNI del vendedor 
+            <select name="sellers">
+                {% for seller in sellers %}
+                    <option value="{{seller.id}}">{{seller.seller_id}}</option>
+                {%endfor%}
+            </select>
+        </label>
+        <h2>Detalles de la compra</h2>
+        <label>
+            <input type="date" name="sale_date">
+        </label>
+        <label>
+            ID de la sucursal
+            <select name="branches">
+                {%for branch in branches%}
+                    <option value="{{branch.id}}">{{branch.id}}</option>
+                {%endfor%}
+            </select>
+        </label>
+        <br>
+        <br>
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>
