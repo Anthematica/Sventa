@@ -5,6 +5,7 @@ require __DIR__.'/lib/Database2.php';
 require_once __DIR__.'/Controllers/HomeController.php';
 require_once __DIR__.'/Controllers/ProductsController.php';
 require_once __DIR__.'/Controllers/BranchesController.php';
+require_once __DIR__.'/Controllers/SellersController.php';
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -16,6 +17,8 @@ use League\Container\Container;
 use Controllers\HomeController;
 use Controllers\ProductsController;
 use Controllers\BranchesController;
+use Controllers\SellersController;
+
 
 
 
@@ -62,6 +65,12 @@ $app->post('/branches/create', [BranchesController::class, 'store']);
 $app->get('/branches/{id}/edit', [BranchesController::class, 'edit']);
 $app->patch('/branches/{id}/edit', [BranchesController::class, 'update']);
 
+//Sellers routes
+$app->get('/sellers', [SellersController::class, 'index']);
+$app->get('/sellers/create', [SellersController::class, 'create']);
+$app->post('/sellers/create', [SellersController::class, 'store']);
+$app->get('/sellers/{id}/edit', [SellersController::class, 'edit']);
+$app->patch('/sellers/{id}/edit', [SellersController::class, 'update']);
 
 
 

@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 
-class BranchesController
+class SellersController
 {
     private $container;
 
@@ -23,17 +23,18 @@ class BranchesController
 
         $db = $this->container->get('db2');
 
-        $listBranches = $db->indexBranches();
+        $listSellers = $db->indexSellers();
 
-        return $view->render($response, '/branches/index.html',
-            ['branches' => $listBranches],
+        return $view->render($response, '/sellers/index.html',
+            ['sellers' => $listSellers],
         );
     }
 
     public function create(Request $request, Response $response, $args): Response
     {   
         $view = Twig::fromRequest($request);
-        return $view->render($response, '/branches/create.html');
+
+        return $view->render($response, '/sellers/create.html');
     }
 
     public function store (Request $request, Response $response, $args): Response {
@@ -41,9 +42,12 @@ class BranchesController
     
         $params = (array) $request->getParsedBody();
 
-        $state = $params['state'] ?? null;
-        $city = $params['city'] ?? null;
-        $address = $params['address'] ?? null;
+        $first_name = $params['first_name'] ?? null;
+        $last_name = $params['last_name'] ?? null;
+        $cedula = $params['cedula'] ?? null;
+        $birthday= $params['birthday'] ?? null;
+        $company_start_date = $params['company_start_date'] ?? null;
+        $DNI = $params['DNI'] ?? null;
         $phone = $params['phone'] ?? null;
     
 
@@ -52,14 +56,17 @@ class BranchesController
     
         $db = $this->container->get('db2');
 
-        $db->storeBranches([
-            'state' => $state,
-            'city' => $city,
-            'address' => $address,
+        $db->storeSeller([
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'cedula' => $cedula,
+            'birthday' => $birthday,
+            'company_start_date' => $company_start_date,
+            'DNI' => $DNI,
             'phone' => $phone,
         ]);
     
-        return $response->withHeader('Location', '/branches')->withStatus(302);
+        return $response->withHeader('Location', '/sellers')->withStatus(302);
     }
 
     public function edit(Request $request, Response $response, $args): Response
@@ -70,13 +77,13 @@ class BranchesController
     
         $db = $this->container->get('db2');
 
-        $branch = $db->findBranch($id);
+        $seller = $db->findSeller($id);
 
         
-        return $view->render($response, '/branches/edit.html', 
+        return $view->render($response, '/sellers/edit.html', 
             [
                 'id' => $id,
-                'branch' => $branch,
+                'seller' => $seller,
             ]
         );
     }
@@ -86,24 +93,29 @@ class BranchesController
         $id = $args['id'];
         $params = (array) $request->getParsedBody();
 
-
-        $state = $params['state'] ?? null;
-        $city = $params['city'] ?? null;
-        $address = $params['address'] ?? null;
+        $first_name = $params['first_name'] ?? null;
+        $last_name = $params['last_name'] ?? null;
+        $birthday = $params['birthday'] ?? null;
+        $cedula = $params['cedula'] ?? null;
+        $company_start_date = $params['company_start_date'] ?? null;
+        $DNI = $params['DNI'] ?? null;
         $phone = $params['phone'] ?? null;
 
         $db = $this->container->get('db2');
 
-        $db->editBranch(
+        $db->editSeller(
             $id, 
             [
-                'state' =>  $state,
-                'city' => $city,
-                'address' => $address,
+                'first_name' =>  $first_name,
+                'last_name' => $last_name,
+                'birthday' => $birthday,
+                'cedula' => $cedula,
+                'company_start_date' => $company_start_date,
+                'DNI' => $DNI,
                 'phone' => $phone,
             ]
         );
 
-        return $response->withHeader('Location', '/branches')->withStatus(302);
+        return $response->withHeader('Location', '/sellers')->withStatus(302);
     }
 }

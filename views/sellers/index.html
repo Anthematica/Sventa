@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sellers</title>
+</head>
+<body>
+    <h1>Sellers</h1>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Seller id</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Birthday</th>
+                    <th>Cedula</th>
+                    <th>Company start date</th>
+                    <th>DNI</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for seller in sellers %}
+                    <tr>
+                        <td>{{seller.id}}</td>
+                        <td>{{seller.first_name}}</td>
+                        <td>{{seller.last_name}}</td>
+                        <td>{{seller.birthday}}</td>
+                        <td>{{seller.id_number}}</td>
+                        <td>{{seller.company_start_date}}</td>
+                        <td>{{seller.seller_id}}</td>
+                        <td>{{seller.phone}}</td>
+                        <td>
+                            <a href="/sellers/{{seller.id}}/edit">Edit</a>
+                        </td> 
+                    </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

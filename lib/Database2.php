@@ -179,4 +179,64 @@ class Database2 {
         );
     }
 
+    public function indexSellers (): ? array {
+
+        $query = $this->pdo->prepare('SELECT *FROM sellers'); //Preparo la tabla
+        
+        $query->execute(); //Ejecuto la consulta
+
+        $sellers = $query->fetchAll(PDO::FETCH_ASSOC); //FETCH_ASSOC convierte el contenido de la BD a un array asociativo 
+        return $sellers;
+    }
+
+    public function storeSeller (array $data): void {
+        $query = $this->pdo->prepare('INSERT INTO sellers (first_name, last_name, id_number, birthday, company_start_date, seller_id, phone) 
+        VALUES(:first_name, :last_name, :id_number, :birthday, :company_start_date, :seller_id, :phone)');
+
+        $query->execute (
+            [
+                //El primer valor corresponde al placeholder 
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'id_number' => $data['cedula'],
+                'birthday' => $data['birthday'],
+                'company_start_date' => $data['company_start_date'],
+                'seller_id' => $data['DNI'],
+                'phone' => $data['phone'],
+            ] 
+        );
+    }
+
+    public function findSeller (string $id) {
+        $query = $this->pdo->prepare ('SELECT *FROM sellers WHERE id = :id');
+
+        $query->execute(
+            ['id' => $id]
+        );
+
+        $seller = $query->fetch(PDO::FETCH_ASSOC);
+
+        return $seller;
+    }
+    public function editSeller (int $id , array $data): void {
+        $query = $this->pdo->prepare
+        (
+        'UPDATE sellers SET first_name = :first_name, last_name = :last_name, id_number = :id_number, birthday= :birthday,
+            company_start_date = :company_start_date, seller_id = :seller_id , phone = :phone WHERE id = :id'
+        );
+
+        $query->execute(
+            [
+                'id' => $id,
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'id_number' => $data['cedula'],
+                'birthday' => $data['birthday'],
+                'company_start_date' => $data['company_start_date'],
+                'seller_id' => $data['DNI'],
+                'phone' => $data['phone'],
+            ]
+        );
+    }
+
 }
